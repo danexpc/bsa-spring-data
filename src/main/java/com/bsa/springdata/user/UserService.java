@@ -5,6 +5,7 @@ import com.bsa.springdata.team.TeamRepository;
 import com.bsa.springdata.user.dto.CreateUserDto;
 import com.bsa.springdata.user.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -76,7 +77,11 @@ public class UserService {
 
     public List<UserDto> findByRoomAndCity(String city, String room) {
         // TODO: Use a single query. Use class Sort to sort users by last name.
-        return null;
+        return userRepository
+                .findByRoomAndCity(room, city, Sort.by("lastname").ascending())
+                .stream()
+                .map(UserDto::fromEntity)
+                .collect(Collectors.toList());
     }
 
     public int deleteByExperience(int experience) {
