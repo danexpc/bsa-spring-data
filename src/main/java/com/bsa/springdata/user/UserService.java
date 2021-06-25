@@ -72,7 +72,11 @@ public class UserService {
 
     public List<UserDto> findByExperience(int experience) {
         // TODO: Use a single query. Sort users by experience by descending. Try to avoid @Query annotation here
-        return null;
+        return userRepository
+                .findByExperience(experience, Sort.by("experience").descending())
+                .stream()
+                .map(UserDto::fromEntity)
+                .collect(Collectors.toList());
     }
 
     public List<UserDto> findByRoomAndCity(String city, String room) {
