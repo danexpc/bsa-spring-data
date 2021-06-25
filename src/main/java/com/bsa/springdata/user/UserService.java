@@ -67,7 +67,11 @@ public class UserService {
 
     public List<UserDto> findByCity(String city) {
         // TODO: Use a single query. Sort users by last name
-        return null;
+        return userRepository
+                .findByCity(city, Sort.by("lastname").ascending())
+                .stream()
+                .map(UserDto::fromEntity)
+                .collect(Collectors.toList());
     }
 
     public List<UserDto> findByExperience(int experience) {
