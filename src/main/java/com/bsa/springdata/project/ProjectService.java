@@ -6,6 +6,7 @@ import com.bsa.springdata.project.dto.ProjectSummaryDto;
 import com.bsa.springdata.team.TeamRepository;
 import com.bsa.springdata.team.TechnologyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -35,7 +36,7 @@ public class ProjectService {
 
     public List<ProjectSummaryDto> getSummary() {
         // TODO: Try to use native query and projection first. If it fails try to make as few queries as possible
-        return null;
+        return projectRepository.getSummary();
     }
 
     public int getCountWithRole(String role) {
