@@ -34,7 +34,8 @@ public class ProjectService {
     public Optional<ProjectDto> findTheBiggest() {
         // TODO: Use single query to load data. Sort by teams, developers, project name
         //  Hint: in order to limit the query you can either use native query with limit or Pageable interface
-        return null;
+        return projectRepository.findTheBiggest()
+                .map(ProjectDto::fromEntity);
     }
 
     public List<ProjectSummaryDto> getSummary() {

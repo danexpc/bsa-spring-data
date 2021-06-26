@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface ProjectRepository extends JpaRepository<Project, UUID> {
@@ -24,4 +25,12 @@ public interface ProjectRepository extends JpaRepository<Project, UUID> {
             "group by p.name " +
             "order by p.name", nativeQuery = true)
     List<ProjectSummaryDto> getSummary();
+
+    @Query(value = "select p.id, p.name, p.description from projects p " +
+            "join teams t on p.id = t.project_id " +
+            "join users u on t.id = u.team_id " +
+            "group by p.id, p.name " +
+            "order by (count(distinct t.id), count(u.id), p.name) desc " +
+            "limit 1", nativeQuery = true)
+    Optional<Project> findTheBiggest();
 }
