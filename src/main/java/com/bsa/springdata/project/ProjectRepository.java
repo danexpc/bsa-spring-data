@@ -33,4 +33,14 @@ public interface ProjectRepository extends JpaRepository<Project, UUID> {
             "order by (count(distinct t.id), count(u.id), p.name) desc " +
             "limit 1", nativeQuery = true)
     Optional<Project> findTheBiggest();
+
+    @Query(value = "select p.id, p.name, p.description from projects p " +
+            "join teams t on p.id = t.project_id " +
+            "join users u on t.id = u.team_id " +
+            "join technologies tech on tech.id = t.technology_id " +
+            "where tech.name = :technology " +
+            "group by p.id " +
+            "order by count(u.id) desc " +
+            "limit 5", nativeQuery = true)
+    List<Project> findTop5ByTechnology(String technology);
 }

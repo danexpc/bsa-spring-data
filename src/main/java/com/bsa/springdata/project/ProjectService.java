@@ -15,6 +15,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class ProjectService {
@@ -28,7 +29,10 @@ public class ProjectService {
     public List<ProjectDto> findTop5ByTechnology(String technology) {
         // TODO: Use single query to load data. Sort by number of developers in a project
         //  Hint: in order to limit the query you can either use native query with limit or Pageable interface
-        return null;
+        return projectRepository.findTop5ByTechnology(technology)
+                .stream()
+                .map(ProjectDto::fromEntity)
+                .collect(Collectors.toList());
     }
 
     public Optional<ProjectDto> findTheBiggest() {
