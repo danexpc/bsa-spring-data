@@ -8,7 +8,6 @@ import com.bsa.springdata.team.TeamRepository;
 import com.bsa.springdata.team.Technology;
 import com.bsa.springdata.team.TechnologyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -27,8 +26,6 @@ public class ProjectService {
     private TeamRepository teamRepository;
 
     public List<ProjectDto> findTop5ByTechnology(String technology) {
-        // TODO: Use single query to load data. Sort by number of developers in a project
-        //  Hint: in order to limit the query you can either use native query with limit or Pageable interface
         return projectRepository.findTop5ByTechnology(technology)
                 .stream()
                 .map(ProjectDto::fromEntity)
@@ -36,26 +33,20 @@ public class ProjectService {
     }
 
     public Optional<ProjectDto> findTheBiggest() {
-        // TODO: Use single query to load data. Sort by teams, developers, project name
-        //  Hint: in order to limit the query you can either use native query with limit or Pageable interface
         return projectRepository.findTheBiggest()
                 .map(ProjectDto::fromEntity);
     }
 
     public List<ProjectSummaryDto> getSummary() {
-        // TODO: Try to use native query and projection first. If it fails try to make as few queries as possible
         return projectRepository.getSummary();
     }
 
     public int getCountWithRole(String role) {
-        // TODO: Use a single query
         return projectRepository.getCountWithRole(role);
     }
 
     @Transactional
     public UUID createWithTeamAndTechnology(CreateProjectRequestDto createProjectRequest) {
-        // TODO: Use common JPARepository methods. Build entities in memory and then persist them
-
         var technology = technologyRepository.save(
                 Technology.builder()
                         .name(createProjectRequest.getTech())

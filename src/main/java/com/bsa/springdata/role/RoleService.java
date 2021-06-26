@@ -12,7 +12,6 @@ public class RoleService {
 
     @Transactional
     public void deleteRole(String roleCode) {
-        // TODO: Use a single query
         roleRepository.deleteByCodeWhichNotMatchesAnyUsers(roleCode);
     }
 }

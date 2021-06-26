@@ -15,7 +15,6 @@ public class TeamService {
 
     @Transactional
     public void updateTechnology(int devsNumber, String oldTechnologyName, String newTechnologyName) {
-        // TODO: You can use several queries here. Try to keep it as simple as possible
         List<Team> teams = teamRepository.findByTechnologyName(oldTechnologyName);
         teams.stream()
                 .filter(team -> team.getUsers().size() < devsNumber)
@@ -29,7 +28,6 @@ public class TeamService {
 
     @Transactional
     public void normalizeName(String hipsters) {
-        // TODO: Use a single query. You need to create a native query
         teamRepository.normalizeName(hipsters);
     }
 }

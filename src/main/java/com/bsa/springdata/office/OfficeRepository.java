@@ -17,9 +17,12 @@ public interface OfficeRepository extends JpaRepository<Office, UUID> {
             "where techno.name = :technology")
     List<Office> getByTechnology(String technology);
 
+    Optional<Office> getByAddress(String address);
+
     @Modifying
-    @Query("update Office o set o.address = :newAddress where size(o.users) <> 0 and o.address = :oldAddress")
+    @Query("update Office o " +
+            "set o.address = :newAddress " +
+            "where size(o.users) <> 0 and o.address = :oldAddress")
     void updateAddressIfAllUsersInProject(String oldAddress, String newAddress);
 
-    Optional<Office> getByAddress(String address);
 }

@@ -10,8 +10,9 @@ public interface RoleRepository extends JpaRepository<Role, UUID> {
 
     @Modifying
     @Query(
-            value = "DELETE FROM roles r WHERE r.code = :code AND r.id NOT IN " +
-                    "(SELECT role_id FROM user2role)",
+            value = "delete from roles r " +
+                    "where r.code = :code and r.id not in " +
+                    "(select role_id from user2role)",
             nativeQuery = true)
     void deleteByCodeWhichNotMatchesAnyUsers(String code);
 }
