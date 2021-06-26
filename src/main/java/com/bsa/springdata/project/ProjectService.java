@@ -3,12 +3,15 @@ package com.bsa.springdata.project;
 import com.bsa.springdata.project.dto.CreateProjectRequestDto;
 import com.bsa.springdata.project.dto.ProjectDto;
 import com.bsa.springdata.project.dto.ProjectSummaryDto;
+import com.bsa.springdata.team.Team;
 import com.bsa.springdata.team.TeamRepository;
+import com.bsa.springdata.team.Technology;
 import com.bsa.springdata.team.TechnologyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -44,8 +47,35 @@ public class ProjectService {
         return projectRepository.getCountWithRole(role);
     }
 
+    @Transactional
     public UUID createWithTeamAndTechnology(CreateProjectRequestDto createProjectRequest) {
         // TODO: Use common JPARepository methods. Build entities in memory and then persist them
-        return null;
+
+        var technology = technologyRepository.save(
+                Technology.builder()
+                        .name(createProjectRequest.getTech())
+                        .description(createProjectRequest.getTechDescription())
+                        .link(createProjectRequest.getTechLink())
+                        .build()
+        );
+
+        var project = projectRepository.save(
+                Project.builder()
+                        .name(createProjectRequest.getProjectName())
+                        .description(createProjectRequest.getProjectDescription())
+                        .build()
+        );
+
+        teamRepository.save(
+                Team.builder()
+                        .area(createProjectRequest.getTeamArea())
+                        .name(createProjectRequest.getTeamName())
+                        .room(createProjectRequest.getTeamRoom())
+                        .technology(technology)
+                        .project(project)
+                        .build()
+        );
+
+        return project.getId();
     }
 }
