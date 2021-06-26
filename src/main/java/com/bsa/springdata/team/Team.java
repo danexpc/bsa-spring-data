@@ -37,7 +37,7 @@ public class Team {
     @JoinColumn(name = "project_id")
     private Project project;
 
-    @OneToMany(mappedBy = "teams", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "team", fetch = FetchType.LAZY)
     private List<User> users;
 
     @ManyToOne(fetch = FetchType.LAZY)
