@@ -1,4 +1,4 @@
-# bsa-spring-data
+# BSA Spring Data
  Learn to associate entities with tables in the database, as well as build requests to read/modify data
 
 # Description of queries
